@@ -13,8 +13,8 @@ const corsOptions = {
 };
 
 // Handle preflight requests for all routes
-app.options("*", cors(corsOptions));
 app.use(cors(corsOptions));
+app.use(express.json());
 
 require("dotenv").config();
 
@@ -34,8 +34,6 @@ const s3 = new AWS.S3();
 
 // middlewares
 const upload = multer({ storage: multer.memoryStorage() });
-
-app.use(express.json());
 
 const initializeDB = require("./db/db");
 
