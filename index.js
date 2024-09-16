@@ -8,8 +8,7 @@ const cors = require("cors");
 
 // cors configuration
 const corsOptions = {
-  origin: "https://true-social-frontend-eight.vercel.app",
-  credentials: true,
+  origin: "*",
 };
 
 // Handle preflight requests for all routes
