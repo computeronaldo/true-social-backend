@@ -24,7 +24,14 @@ const s3 = new AWS.S3();
 
 // cors configuration
 const corsOptions = {
-  origin: "*",
+  origin: (origin, callback) => {
+    const allowedOrigins = ["https://true-social-frontend-eight.vercel.app"];
+    if (allowedOrigins.includes(origin) || !origin) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
   credentials: true,
 };
 
@@ -495,15 +502,13 @@ app.post("/signup", async (req, res) => {
   try {
     const newUser = await createNewUser(newUserInfo);
 
-    const userWithoutPassword = { ...newUser.toObject() }; // Convert mongoose document to plain object
+    const userWithoutPassword = { ...newUser.toObject() };
     delete userWithoutPassword.password;
 
-    res
-      .status(201)
-      .json({
-        message: "User registered successfully.",
-        user: userWithoutPassword,
-      });
+    res.status(201).json({
+      message: "User registered successfully.",
+      user: userWithoutPassword,
+    });
   } catch (error) {
     if (error.name === "ValidationError") {
       let inputValidationErrors = {};
