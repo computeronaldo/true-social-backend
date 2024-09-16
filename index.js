@@ -8,16 +8,13 @@ const cors = require("cors");
 
 // cors configuration
 const corsOptions = {
-  origin: (origin, callback) => {
-    const allowedOrigins = ["https://true-social-frontend-eight.vercel.app/"];
-    if (allowedOrigins.includes(origin) || !origin) {
-      callback(null, true);
-    } else {
-      callback(new Error("Not allowed by CORS"));
-    }
-  },
+  origin: "https://true-social-frontend-eight.vercel.app",
   credentials: true,
 };
+
+// Handle preflight requests for all routes
+app.options("*", cors(corsOptions));
+app.use(cors(corsOptions));
 
 require("dotenv").config();
 
@@ -39,7 +36,6 @@ const s3 = new AWS.S3();
 const upload = multer({ storage: multer.memoryStorage() });
 
 app.use(express.json());
-app.use(cors(corsOptions));
 
 const initializeDB = require("./db/db");
 
