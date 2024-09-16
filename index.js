@@ -9,7 +9,7 @@ const cors = require("cors");
 // cors configuration
 const corsOptions = {
   origin: (origin, callback) => {
-    const allowedOrigins = ["https://true-social-frontend-eight.vercel.app"];
+    const allowedOrigins = ["https://true-social-frontend-eight.vercel.app/"];
     if (allowedOrigins.includes(origin) || !origin) {
       callback(null, true);
     } else {
