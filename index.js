@@ -6,6 +6,19 @@ const AWS = require("aws-sdk");
 const app = express();
 const cors = require("cors");
 
+// cors configuration
+const corsOptions = {
+  origin: (origin, callback) => {
+    const allowedOrigins = ["https://true-social-frontend-eight.vercel.app"];
+    if (allowedOrigins.includes(origin) || !origin) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  credentials: true,
+};
+
 require("dotenv").config();
 
 // models
@@ -21,19 +34,6 @@ AWS.config.update({
 });
 
 const s3 = new AWS.S3();
-
-// cors configuration
-const corsOptions = {
-  origin: (origin, callback) => {
-    const allowedOrigins = ["https://true-social-frontend-eight.vercel.app"];
-    if (allowedOrigins.includes(origin) || !origin) {
-      callback(null, true);
-    } else {
-      callback(new Error("Not allowed by CORS"));
-    }
-  },
-  // credentials: true,
-};
 
 // middlewares
 const upload = multer({ storage: multer.memoryStorage() });
